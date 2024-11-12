@@ -19,13 +19,14 @@
 // get refs to the input and output elements in the page
 const input = document.getElementById("target");
 const output = document.querySelector("output");
+const targetsList = document.getElementById("available-targets");
 
 // when the input has focus and enter is pressed, invoke the function named later
 input.addEventListener("keydown", (ev) => {
   console.debug("keydown", ev.key);
   if (ev.key === "Enter") {
     console.log("Enter detected. current value:", input.value);
-    // TODO use the provided later() function here
+    options(displayTargets, input.value);
   }
 });
 
@@ -36,10 +37,27 @@ input.addEventListener("keydown", (ev) => {
 // is "see you later", the output element should be updated to read:
 // see you later, alligator
 
+const displayTargets = (targets) => {
+  // Clear previous targets
+  targetsList.innerHTML = '';
+  
+  // Create button for each target
+  targets.forEach(target => {
+    const li = document.createElement('li');
+    const button = document.createElement('button');
+    button.textContent = target;
+    button.addEventListener('click', () => {
+      later(target, setOutput);
+    });
+    li.appendChild(button);
+    targetsList.appendChild(li);
+  });
+};
+
 //
 const setOutput = (result) => {
   console.log("setOutput", result);
-  // TODO see comments just above 🙄
+  output.textContent = `${result.valediction}, ${result.target}`;
 };
 
 // for Part 2
